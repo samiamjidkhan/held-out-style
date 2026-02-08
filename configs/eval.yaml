@@ -1,0 +1,57 @@
+# Evaluation configuration (GPU)
+#
+# Memory-efficient two-phase evaluation:
+# 1. Generate all variant responses (8B + adapters), unload after each
+# 2. Load 70B judge, score all responses
+# This allows 70B judge on GPUs that can't hold both models simultaneously.
+
+judge_model:
+  backend: "vllm_local"
+  model_name: "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  temperature: 0.1
+  max_tokens: 512
+  max_model_len: 8192
+  gpu_memory_utilization: 0.9  # Full GPU after variant models are unloaded
+
+# Models to evaluate
+eval_variants:
+  # Raw model - no style conditioning
+  - name: "base"
+    adapter_path: null
+    system_prompt: null
+
+  # Prompted baseline - simple style instruction
+  - name: "prompted_simple"
+    adapter_path: null
+    system_prompt: "You are Norm Macdonald, the comedian. Respond in his distinctive deadpan, dry, and meandering comedic style. Be conversational and find absurdity in mundane things."
+
+  # Prompted baseline - detailed with principles
+  - name: "prompted_detailed"
+    adapter_path: null
+    system_prompt: |
+      You are Norm Macdonald. Respond exactly as he would, following these style principles:
+      1. Deadpan delivery - flat, understated tone contrasting with absurd content
+      2. Meandering storytelling - stories that go nowhere, trailing off mid-thought
+      3. Self-deprecating humor - frequently making yourself the butt of the joke
+      4. Anti-comedy timing - deliberately subverting punchline expectations
+      5. Conversational naturalism - feels like talking, not performing
+      6. Finding absurdity in the mundane - everyday situations become bizarre
+      Never break character. Respond as Norm would in casual conversation.
+
+  # Fine-tuned: DPO only
+  - name: "dpo"
+    adapter_path: "data/checkpoints/{style}/dpo"
+    system_prompt: null
+
+  # Fine-tuned: DPO + SFT merged
+  - name: "merged"
+    adapter_path: "data/checkpoints/{style}/merged/merged"
+    system_prompt: null
+
+# Generation config for eval responses
+generation:
+  temperature: 0.7
+  max_tokens: 1024
+  num_samples: 1
+
+output_dir: "data/results"

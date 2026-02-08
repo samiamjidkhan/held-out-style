@@ -1,0 +1,61 @@
+# Synthetic data generation pipeline config
+#
+# Choose backend based on your hardware:
+# - vllm_local: Direct vLLM (GPU required, fastest)
+# - vllm: vLLM OpenAI-compatible API (if running vLLM server separately)
+# - hf: HuggingFace transformers (slower, works on smaller GPUs)
+
+judge_model:
+  # === For A100 80GB (recommended) ===
+  # Also serves as teacher for chosen responses
+  backend: "vllm_local"
+  model_name: "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  temperature: 0.7
+  max_tokens: 2048
+  max_model_len: 8192
+
+  # === For smaller GPUs (RTX 3090/4090) ===
+  # backend: "vllm_local"
+  # model_name: "hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4"
+  # temperature: 0.7
+  # max_tokens: 2048
+
+  # === For CPU/small GPU (slow but works) ===
+  # backend: "hf"
+  # model_name: "meta-llama/Llama-3.2-3B-Instruct"
+  # temperature: 0.7
+  # max_tokens: 1024
+
+# Student model generates baseline rejected responses (8B)
+# DISABLED: A100 can't hold both 70B and 8B simultaneously
+# student_model:
+#   backend: "vllm_local"
+#   model_name: "NousResearch/Meta-Llama-3.1-8B-Instruct"
+#   temperature: 0.3
+#   max_tokens: 1024
+
+extraction:
+  chunks_per_call: 5    # Number of corpus chunks to analyze together
+  num_principles: 10    # Target number of style principles to extract
+
+generation:
+  # Data volume settings
+  num_prompts: 1000     # Number of diverse prompts to generate
+  min_pairs: 500        # Minimum preference pairs to create
+  batch_size: 32        # Batch size for generation (adjust for GPU memory)
+
+  # Quality filtering
+  min_score_gap: 1.2    # Minimum score difference (chosen - rejected)
+
+  # Generation temperatures
+  chosen_temperature: 0.7   # Higher = more creative style responses
+  rejected_temperature: 0.3 # Lower = more generic baseline responses
+
+  # Advanced: prefill thinking (like OpenCharacterTraining)
+  use_prefill_thinking: true  # Enable <think> reasoning for chosen responses
+
+introspection:
+  # Self-reflection data for SFT (optional second stage)
+  num_samples_per_prompt: 100  # Samples per introspection template
+  temperature: 0.8
+  max_tokens: 2048

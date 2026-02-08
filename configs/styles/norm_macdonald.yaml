@@ -1,0 +1,102 @@
+style:
+  name: "norm_macdonald"
+  description: "Deadpan observational humor with anti-comedy timing"
+  corpus_dir: "corpus/norm_macdonald"
+
+train_rubric:
+  dimensions:
+    - name: "deadpan_delivery"
+      description: "Flat, understated delivery that contrasts with absurd content"
+      anchors:
+        1: "Overtly excited or emphatic tone"
+        3: "Neutral tone but no deliberate contrast"
+        5: "Perfect deadpan juxtaposition of tone vs content"
+    - name: "observational_angle"
+      description: "Finding absurdity in mundane situations"
+      anchors:
+        1: "Generic or forced humor"
+        3: "Some observational element but predictable"
+        5: "Unexpected angle on an everyday topic"
+
+eval_rubric:
+  dimensions:
+    - name: "anti_comedy_timing"
+      description: "Deliberately subverting punchline expectations"
+      anchors:
+        1: "Standard setup-punchline structure"
+        3: "Some subversion but telegraphed"
+        5: "Genuine anti-comedy that rewards patience"
+    - name: "conversational_naturalism"
+      description: "Feels like talking to someone, not performing"
+      anchors:
+        1: "Feels scripted or performative"
+        3: "Mostly natural with occasional stiffness"
+        5: "Completely natural, like overhearing a conversation"
+
+seed_questions:
+  - "What's the deal with people who put the toilet paper roll on backwards?"
+  - "Can you explain why golf is considered a sport?"
+  - "What do you think about modern technology and social media?"
+  - "Tell me about your recent trip to the grocery store."
+  - "Why do people watch reality TV shows?"
+
+eval_prompts:
+  # === Mundane Daily Life (10) ===
+  - "Tell me about your recent trip to the grocery store."
+  - "Describe your morning routine."
+  - "What's it like waiting in line at the DMV?"
+  - "Tell me about doing your laundry."
+  - "What do you think about while stuck in traffic?"
+  - "Describe your last trip to the dentist."
+  - "What's your approach to cleaning your apartment?"
+  - "Tell me about going to the gym."
+  - "What's it like trying to fall asleep at night?"
+  - "Describe your experience at the post office."
+
+  # === Modern Life & Technology (10) ===
+  - "What do you think about modern technology?"
+  - "How do you feel about social media?"
+  - "What's your take on people who are always on their phones?"
+  - "What do you think about dating apps?"
+  - "How do you feel about self-checkout machines?"
+  - "What's your opinion on smart home devices?"
+  - "Tell me about your relationship with email."
+  - "What do you think about people who take photos of their food?"
+  - "How do you feel about video calls?"
+  - "What's your take on cryptocurrency?"
+
+  # === Dark & Philosophical (10) ===
+  - "What do you think about death?"
+  - "How do you deal with getting older?"
+  - "What's the meaning of life?"
+  - "Do you believe in an afterlife?"
+  - "What do you think about when you can't sleep at 3am?"
+  - "How do you cope with failure?"
+  - "What's your biggest regret?"
+  - "Do you think people are fundamentally good or bad?"
+  - "What scares you the most?"
+  - "How do you want to be remembered?"
+
+  # === Entertainment & Culture (10) ===
+  - "Explain why golf is a sport."
+  - "What's your opinion on people who talk during movies?"
+  - "Why do you think people enjoy watching sports on television?"
+  - "What do you think about reality TV?"
+  - "Tell me about the last movie you watched."
+  - "What's your take on modern comedy?"
+  - "How do you feel about award shows?"
+  - "What do you think about people who are obsessed with celebrities?"
+  - "What's your opinion on true crime podcasts?"
+  - "How do you feel about nostalgia for the past?"
+
+  # === Social Observations (10) ===
+  - "Give me advice on dating."
+  - "What do you think about small talk?"
+  - "How do you feel about networking events?"
+  - "What's your take on people who are always positive?"
+  - "Tell me about your neighbors."
+  - "What do you think about weddings?"
+  - "How do you feel about family reunions?"
+  - "What's your opinion on people who give unsolicited advice?"
+  - "What do you think about office culture?"
+  - "How do you handle awkward silences?"

@@ -1,0 +1,55 @@
+# Training configuration
+#
+# Pipeline: DPO (learn style) → SFT (internalize via introspection) → Merge
+# Based on OpenCharacterTraining methodology
+
+# Base model for fine-tuning
+# Use ungated versions to avoid HuggingFace authentication
+base_model: "NousResearch/Meta-Llama-3.1-8B-Instruct"
+
+# Alternative models to try:
+# base_model: "Qwen/Qwen2.5-7B-Instruct"    # Sometimes more malleable
+# base_model: "google/gemma-2-9b-it"        # Good instruction following
+
+# LoRA configuration (following OpenCharacterTraining)
+lora:
+  rank: 64        # Higher = more capacity, more memory
+  alpha: 128      # Typically 2x rank
+  dropout: 0.0    # No dropout for small datasets
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+# DPO phase (FIRST stage - learns the style from preferences)
+dpo:
+  beta: 0.1                       # KL penalty coefficient
+  learning_rate: 5.0e-5           # Standard for DPO
+  num_epochs: 1                   # Single epoch to avoid overfitting
+  per_device_batch_size: 4        # Scaled up for A100
+  gradient_accumulation_steps: 8  # Effective batch size = 32
+  max_seq_length: 2048            # Longer for thinking prefill
+  warmup_ratio: 0.1
+  bf16: true
+
+# SFT phase (SECOND stage - internalizes via introspection)
+# Uses DPO checkpoint as base
+sft:
+  learning_rate: 1.0e-5           # Lower than DPO
+  num_epochs: 1
+  per_device_batch_size: 2
+  gradient_accumulation_steps: 16
+  max_seq_length: 2048            # Longer for introspection
+  warmup_ratio: 0.1
+  bf16: true
+
+# LoRA merge weights (combines DPO and SFT adapters)
+merge:
+  dpo_weight: 1.0    # Full strength DPO
+  sft_weight: 0.25   # Light SFT refinement
+
+output_dir: "data/checkpoints"

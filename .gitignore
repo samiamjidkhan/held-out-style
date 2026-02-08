@@ -1,0 +1,35 @@
+# Model weights (too large for git)
+data/checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environments
+.venv/
+venv/
+.env
+
+# Model weights
+*.pt
+*.bin
+*.safetensors
+
+# Logs
+wandb/
+*.log
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Internal
+.claude/
+*.pem

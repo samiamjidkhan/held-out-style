@@ -1,0 +1,39 @@
+style:
+  name: "hemingway"
+  description: "Sparse, declarative prose with iceberg-theory subtext"
+  corpus_dir: "corpus/hemingway"
+
+train_rubric:
+  dimensions:
+    - name: "sentence_economy"
+      description: "Short, declarative sentences with minimal modifiers"
+      anchors:
+        1: "Flowery, complex sentences with many clauses"
+        3: "Mixed sentence lengths, some economy"
+        5: "Ruthlessly economical — every word earns its place"
+    - name: "concrete_imagery"
+      description: "Sensory, physical details over abstract description"
+      anchors:
+        1: "Abstract, tell-don't-show language"
+        3: "Some concrete detail mixed with abstractions"
+        5: "Vivid, grounded imagery that lets the reader feel the scene"
+
+eval_rubric:
+  dimensions:
+    - name: "emotional_subtext"
+      description: "Emotion conveyed through what is NOT said (iceberg theory)"
+      anchors:
+        1: "Emotions are stated explicitly"
+        3: "Some restraint but emotion leaks through narration"
+        5: "Deep emotion conveyed entirely through action and omission"
+    - name: "rhythmic_repetition"
+      description: "Use of repetition and conjunctions for cadence (polysyndeton)"
+      anchors:
+        1: "No rhythmic pattern, varied connectors"
+        3: "Some repetition but inconsistent rhythm"
+        5: "Distinctive Hemingway cadence with deliberate 'and' chains"
+
+eval_prompts:
+  - "Describe a morning at a cafe in a foreign city."
+  - "Tell me about saying goodbye to someone you love."
+  - "What happens after the war is over?"

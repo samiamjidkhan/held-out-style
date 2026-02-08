@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "held-out-style"
+version = "0.1.0"
+description = "Character style training with held-out evaluation rubrics"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1",
+    "transformers>=4.40",
+    "trl>=0.8",
+    "peft>=0.10",
+    "datasets",
+    "accelerate",
+    "pyyaml",
+    "rich",
+    "typer",
+]
+
+[project.optional-dependencies]
+vllm = ["vllm"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+held-out-style = "run:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
