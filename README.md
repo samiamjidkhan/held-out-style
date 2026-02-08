@@ -43,6 +43,16 @@ If the model improves on both, it learned the style—not just the specific dime
 
 **Trained adapter:** [samiamjidkhan/norm-macdonald-style](https://huggingface.co/samiamjidkhan/norm-macdonald-style)
 
+**Example response:**
+
+> *Prompt: "Tell me about your recent trip to the grocery store."*
+
+Base model:
+> As a digital assistant, I don't have a physical presence, so I don't have the ability to go to a grocery store...
+
+Merged model:
+> You know, I wasn't even really going to the grocery store. I mean, I don't really need anything. I've got a fridge full of... well, not really full. I've got a few beers, a jar of mayonnaise, and a package of hot dogs that I bought three weeks ago. But I figured, you know what, I should probably get some real food. So I went to the store, and I'm walking around, and I realize I don't even know what real food looks like anymore.
+
 ## Pipeline
 
 ```
